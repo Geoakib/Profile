@@ -254,6 +254,11 @@ h2 em { font-style: italic; color: var(--blue); }
 .map-card svg { width: 100%; height: 100%; display: block; }
 
 /* ─── TIMELINE ────────────────────────────── */
+.timeline-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+}
+@media (max-width: 768px) { .timeline-grid { grid-template-columns: 1fr; gap: 0; } }
+
 .timeline { position: relative; padding-left: 24px; }
 .timeline::before {
   content: ""; position: absolute; left: 6px; top: 0; bottom: 0; width: 1px;
@@ -339,10 +344,33 @@ h2 em { font-style: italic; color: var(--blue); }
 }
 
 /* ─── PUBLICATIONS ────────────────────────── */
+.pub-tabs {
+  display: flex; gap: 0; flex-wrap: wrap;
+  border-bottom: 1px solid var(--line2);
+  margin-bottom: 0; margin-top: 8px;
+}
+.pub-tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); background: transparent; border: 0;
+  padding: 14px 22px 14px 0; margin-right: 28px; cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color .2s, border-color .2s; display: flex; align-items: baseline; gap: 8px;
+}
+.pub-tab:hover { color: var(--ink); }
+.pub-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.pub-tab .count {
+  font-size: .58rem; color: var(--soft); background: var(--blue-bg);
+  padding: 2px 7px; border-radius: 2px;
+}
+.pub-tab.active .count { color: var(--blue); }
+.pub-panel { display: none; }
+.pub-panel.active { display: block; }
+
 .pub-list { display: flex; flex-direction: column; }
 .pub {
   display: grid; grid-template-columns: 60px 1fr auto;
-  gap: 28px; padding: 26px 0;
+  gap: 28px; padding: 22px 0;
   border-top: 1px solid var(--line); align-items: start;
   transition: all .2s;
 }
@@ -354,14 +382,14 @@ h2 em { font-style: italic; color: var(--blue); }
 }
 .pub h4 {
   font-family: 'Playfair Display', serif; font-weight: 500;
-  font-size: 1.04rem; line-height: 1.38; color: var(--ink);
+  font-size: 1rem; line-height: 1.38; color: var(--ink);
   margin-bottom: 6px; letter-spacing: -.01em;
 }
 .pub h4 .me { font-style: italic; color: var(--blue); background: var(--blue-bg); padding: 0 2px; }
-.pub-journal { font-style: italic; font-size: .85rem; color: var(--muted); margin-bottom: 5px; }
-.pub-authors { font-size: .82rem; color: var(--soft); }
+.pub-journal { font-style: italic; font-size: .82rem; color: var(--muted); margin-bottom: 5px; }
+.pub-authors { font-size: .78rem; color: var(--soft); line-height: 1.5; }
 .pub-doi {
-  font-family: 'JetBrains Mono', monospace; font-size: .65rem;
+  font-family: 'JetBrains Mono', monospace; font-size: .62rem;
   letter-spacing: .1em; text-transform: uppercase; color: var(--blue2);
   text-decoration: none; padding-top: 4px; white-space: nowrap;
   display: flex; align-items: center; gap: 5px; transition: color .2s;
@@ -369,7 +397,29 @@ h2 em { font-style: italic; color: var(--blue); }
 .pub-doi:hover { color: var(--blue); }
 .pub-doi .arr { transition: transform .25s; }
 .pub-doi:hover .arr { transform: translateX(4px); }
-@media (max-width: 768px) { .pub { grid-template-columns: 1fr; gap: 4px; } .pub-doi { padding-top: 0; } }
+@media (max-width: 768px) {
+  .pub { grid-template-columns: 1fr; gap: 4px; }
+  .pub-doi { padding-top: 0; }
+  .pub-tab { margin-right: 14px; padding: 12px 0; font-size: .62rem; }
+}
+
+.pub-summary {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--line); border: 1px solid var(--line2);
+  margin: 32px 0 36px;
+}
+@media (max-width: 700px) { .pub-summary { grid-template-columns: repeat(2, 1fr); } }
+.ps-cell { background: var(--surface); padding: 22px 24px; }
+.ps-num {
+  font-family: 'Playfair Display', serif; font-weight: 600;
+  font-size: 2.2rem; color: var(--blue); line-height: 1; letter-spacing: -.02em;
+}
+.ps-lbl {
+  font-family: 'JetBrains Mono', monospace; font-size: .6rem;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  margin-top: 8px;
+}
+
 .cta-row { margin-top: 48px; display: flex; gap: 14px; flex-wrap: wrap; }
 
 /* ─── TOOLKIT ─────────────────────────────── */
@@ -380,6 +430,14 @@ h2 em { font-style: italic; color: var(--blue); }
 @media (max-width: 768px) { .toolkit-grid { grid-template-columns: 1fr; } }
 .tk { background: var(--surface); padding: 28px 30px 34px; transition: background .3s; }
 .tk:hover { background: var(--blue-bg); }
+.tk-ai { background: linear-gradient(135deg, var(--blue-bg) 0%, var(--surface) 100%); position: relative; }
+.tk-ai::after {
+  content: "NEW"; position: absolute; top: 14px; right: 14px;
+  font-family: 'JetBrains Mono', monospace; font-size: .55rem;
+  letter-spacing: .14em; color: var(--blue);
+  background: #fff; border: 1px solid var(--blue3);
+  padding: 3px 7px; border-radius: 2px;
+}
 .tk-lbl {
   font-family: 'JetBrains Mono', monospace; font-size: .63rem;
   letter-spacing: .16em; text-transform: uppercase; color: var(--blue2); margin-bottom: 13px;
@@ -534,85 +592,122 @@ h2 em { font-style: italic; color: var(--blue); }
       </div>
 
       <div class="obs">
-        <!-- Stylised map card — blue-on-white topographic -->
+        <!-- Land Cover Classification card — representing GISAI/NSAI research output -->
         <div class="map-card">
-          <span class="mc-lbl tl">N 23°48′</span>
-          <span class="mc-lbl tr">E 90°24′</span>
-          <span class="mc-lbl bl">Urban Impervious · GISAI</span>
-          <span class="mc-lbl br">v.2026</span>
-          <svg viewBox="0 0 440 460" xmlns="http://www.w3.org/2000/svg">
+          <span class="mc-lbl tl">LULC Classification</span>
+          <span class="mc-lbl tr">GEE · Sentinel-2</span>
+          <span class="mc-lbl bl">GISAI · NSAI Indices</span>
+          <span class="mc-lbl br">Dhaka, Bangladesh</span>
+          <svg viewBox="0 0 440 460" xmlns="http://www.w3.org/2000/svg" font-family="monospace">
             <defs>
               <pattern id="pg" width="22" height="22" patternUnits="userSpaceOnUse">
-                <path d="M22 0L0 0 0 22" fill="none" stroke="#dde2ea" stroke-width=".7"/>
+                <path d="M22 0L0 0 0 22" fill="none" stroke="#d8dfe8" stroke-width=".5"/>
               </pattern>
-              <radialGradient id="rg" cx="50%" cy="45%" r="55%">
-                <stop offset="0%" stop-color="#e4eef7" stop-opacity=".8"/>
-                <stop offset="100%" stop-color="#e4eef7" stop-opacity="0"/>
-              </radialGradient>
-              <filter id="blur1"><feGaussianBlur stdDeviation="1.2"/></filter>
+              <clipPath id="mapclip"><rect width="440" height="390"/></clipPath>
+              <filter id="soft"><feGaussianBlur stdDeviation="2.5"/></filter>
             </defs>
-            <!-- grid -->
-            <rect width="440" height="460" fill="#fff"/>
-            <rect width="440" height="460" fill="url(#pg)"/>
-            <rect width="440" height="460" fill="url(#rg)"/>
-            <!-- contour lines -->
-            <g fill="none" stroke="#5b9fd4" stroke-width="1.1" opacity=".35">
-              <path class="cl" d="M-10,400 Q100,355 220,378 T420,330 Q440,315 455,290"/>
-              <path class="cl" d="M-10,340 Q105,292 225,318 T428,265 Q444,248 455,224"/>
-              <path class="cl" d="M-10,278 Q110,228 230,256 T436,198 Q448,180 455,158"/>
-              <path class="cl" d="M-10,214 Q115,163 235,193 T444,130 Q452,112 455,92"/>
-              <path class="cl" d="M-10,150 Q120,98 240,130 T450,62 Q453,44 455,26"/>
-              <path class="cl" d="M-10,86 Q125,34 245,67 T456,-6"/>
+
+            <!-- background -->
+            <rect width="440" height="460" fill="#f4f7fb"/>
+            <rect width="440" height="390" fill="url(#pg)"/>
+
+            <!-- ── Vegetation patches (green) ── -->
+            <g clip-path="url(#mapclip)" fill="#5a9e72" opacity=".82">
+              <!-- top-left green zone -->
+              <path d="M0,0 L130,0 L110,60 L80,90 L50,110 L0,100 Z"/>
+              <!-- top-right -->
+              <path d="M310,0 L440,0 L440,80 L400,70 L360,40 L330,20 Z"/>
+              <!-- bottom-left -->
+              <path d="M0,260 L60,240 L90,280 L70,340 L30,370 L0,360 Z"/>
+              <!-- bottom-right scattered -->
+              <path d="M340,280 L400,260 L440,290 L440,370 L380,360 L350,330 Z"/>
+              <path d="M150,300 L180,285 L200,310 L175,340 L148,325 Z"/>
+              <path d="M260,310 L295,295 L310,330 L280,350 L255,335 Z"/>
             </g>
-            <!-- river / drainage path -->
-            <path d="M10,455 Q80,418 160,435 Q250,455 310,395 Q385,330 445,305" fill="none" stroke="#1e7a72" stroke-width="3.5" opacity=".6" stroke-linecap="round"/>
-            <!-- urban cluster — built-up blocks -->
-            <g fill="#1a4f7a" opacity=".82">
-              <rect x="200" y="215" width="14" height="14"/>
-              <rect x="218" y="208" width="10" height="20"/>
-              <rect x="212" y="233" width="17" height="10"/>
-              <rect x="233" y="220" width="12" height="14"/>
-              <rect x="203" y="248" width="9" height="9"/>
-              <rect x="222" y="242" width="15" height="8"/>
+
+            <!-- ── Water body (river + pond) ── -->
+            <g clip-path="url(#mapclip)" fill="#4b9fc7" opacity=".85">
+              <!-- river diagonal top-right to bottom-left -->
+              <path d="M280,0 L320,0 L300,50 L270,90 L240,130 L200,170 L160,200 L120,220 L80,235 L40,245 L0,248 L0,230 L40,220 L80,210 L120,195 L155,175 L190,148 L228,112 L258,72 L280,30 Z"/>
+              <!-- small pond bottom -->
+              <ellipse cx="320" cy="340" rx="38" ry="24"/>
             </g>
-            <!-- secondary cluster -->
-            <g fill="#2472aa" opacity=".6">
-              <rect x="118" y="290" width="11" height="11"/>
-              <rect x="133" y="284" width="14" height="16"/>
-              <rect x="112" y="305" width="10" height="12"/>
+
+            <!-- ── Bare soil patches (warm tan) ── -->
+            <g clip-path="url(#mapclip)" fill="#c9a86c" opacity=".8">
+              <path d="M130,60 L200,50 L220,90 L180,110 L140,100 Z"/>
+              <path d="M350,150 L400,140 L420,185 L380,200 L345,180 Z"/>
+              <path d="M80,300 L130,285 L145,325 L100,345 L75,328 Z"/>
             </g>
-            <!-- crosshair on primary cluster -->
-            <g stroke="#1a4f7a" stroke-width="1.2" opacity=".9">
-              <line x1="197" y1="228" x2="214" y2="228"/>
-              <line x1="206" y1="220" x2="206" y2="236"/>
-              <circle cx="206" cy="228" r="7" fill="none" stroke-width=".8"/>
+
+            <!-- ── Urban / Impervious surfaces (built-up blue) ── -->
+            <g clip-path="url(#mapclip)" fill="#2d6aa0" opacity=".88">
+              <!-- main urban core -->
+              <path d="M200,130 L320,120 L355,160 L360,250 L310,280 L230,285 L185,250 L180,190 Z"/>
+              <!-- secondary urban patches -->
+              <path d="M140,170 L185,165 L180,215 L135,210 Z"/>
+              <path d="M365,80 L400,72 L405,115 L368,118 Z"/>
             </g>
-            <circle cx="206" cy="228" r="3" fill="#fff"/>
-            <circle cx="127" cy="300" r="2.5" fill="#fff" stroke="#2472aa" stroke-width="1.2"/>
-            <!-- scale bar -->
-            <g stroke="#7a8fa6" stroke-width=".8">
-              <line x1="24" y1="430" x2="84" y2="430"/>
-              <line x1="24" y1="426" x2="24" y2="434"/>
-              <line x1="54" y1="426" x2="54" y2="432"/>
-              <line x1="84" y1="426" x2="84" y2="434"/>
-            </g>
-            <text x="24" y="443" font-family="monospace" font-size="7" fill="#7a8fa6">0</text>
-            <text x="48" y="443" font-family="monospace" font-size="7" fill="#7a8fa6">5 km</text>
-            <!-- tick marks -->
-            <g stroke="#c5cfdb" stroke-width=".7">
-              <line x1="0" y1="115" x2="9" y2="115"/>
-              <line x1="0" y1="230" x2="9" y2="230"/>
-              <line x1="0" y1="345" x2="9" y2="345"/>
-              <line x1="110" y1="0" x2="110" y2="9"/>
-              <line x1="220" y1="0" x2="220" y2="9"/>
-              <line x1="330" y1="0" x2="330" y2="9"/>
-            </g>
+
+            <!-- soft glow over urban core -->
+            <ellipse cx="272" cy="202" rx="80" ry="70" fill="#1a4f88" opacity=".12" filter="url(#soft)"/>
+
+            <!-- ── Annotation callouts ── -->
+            <!-- Urban callout -->
+            <line x1="272" y1="202" x2="340" y2="155" stroke="#2d6aa0" stroke-width="1" stroke-dasharray="3,3"/>
+            <rect x="334" y="140" width="98" height="28" rx="2" fill="#fff" stroke="#2d6aa0" stroke-width=".8"/>
+            <text x="383" y="157" text-anchor="middle" font-size="8" fill="#2d6aa0" font-weight="bold">IMPERVIOUS</text>
+            <text x="383" y="163" text-anchor="middle" font-size="6.5" fill="#6a8aaa">GISAI detected</text>
+
+            <!-- River callout -->
+            <line x1="120" y1="200" x2="62" y2="168" stroke="#4b9fc7" stroke-width="1" stroke-dasharray="3,3"/>
+            <rect x="4" y="153" width="68" height="28" rx="2" fill="#fff" stroke="#4b9fc7" stroke-width=".8"/>
+            <text x="38" y="167" text-anchor="middle" font-size="8" fill="#4b9fc7" font-weight="bold">WATER</text>
+            <text x="38" y="174" text-anchor="middle" font-size="6.5" fill="#6a8aaa">drainage path</text>
+
+            <!-- Vegetation callout -->
+            <line x1="55" y1="60" x2="90" y2="82" stroke="#5a9e72" stroke-width="1" stroke-dasharray="3,3"/>
+            <rect x="2" y="46" width="78" height="28" rx="2" fill="#fff" stroke="#5a9e72" stroke-width=".8"/>
+            <text x="41" y="60" text-anchor="middle" font-size="8" fill="#5a9e72" font-weight="bold">VEGETATION</text>
+            <text x="41" y="67" text-anchor="middle" font-size="6.5" fill="#6a8aaa">NDVI &gt; 0.35</text>
+
+            <!-- Soil callout -->
+            <line x1="165" y1="82" x2="174" y2="112" stroke="#c9a86c" stroke-width="1" stroke-dasharray="3,3"/>
+            <rect x="125" y="66" width="78" height="28" rx="2" fill="#fff" stroke="#c9a86c" stroke-width=".8"/>
+            <text x="164" y="80" text-anchor="middle" font-size="8" fill="#b8823a" font-weight="bold">BARE SOIL</text>
+            <text x="164" y="87" text-anchor="middle" font-size="6.5" fill="#6a8aaa">NSAI suppressed</text>
+
+            <!-- ── Legend bar ── -->
+            <rect x="0" y="392" width="440" height="68" fill="#fff" stroke="#dde2ea" stroke-width=".8"/>
+            <text x="20" y="408" font-size="7" fill="#9aaabf" letter-spacing=".12em">LAND COVER CLASSES</text>
+
+            <!-- legend swatches -->
+            <rect x="20" y="416" width="14" height="14" rx="1" fill="#2d6aa0"/>
+            <text x="38" y="427" font-size="8.5" fill="#3a4a5c">Impervious / Built-up</text>
+
+            <rect x="130" y="416" width="14" height="14" rx="1" fill="#5a9e72"/>
+            <text x="148" y="427" font-size="8.5" fill="#3a4a5c">Vegetation</text>
+
+            <rect x="240" y="416" width="14" height="14" rx="1" fill="#4b9fc7"/>
+            <text x="258" y="427" font-size="8.5" fill="#3a4a5c">Water</text>
+
+            <rect x="330" y="416" width="14" height="14" rx="1" fill="#c9a86c"/>
+            <text x="348" y="427" font-size="8.5" fill="#3a4a5c">Bare Soil</text>
+
+            <!-- accuracy note -->
+            <text x="20" y="450" font-size="7.5" fill="#9aaabf">OA: 96.4%  ·  Kappa: 0.94  ·  10 m resolution  ·  Sentinel-2 MSI</text>
           </svg>
         </div>
 
-        <!-- Timeline below map on mobile / beside prose on desktop -->
-        <div style="margin-top: 48px;">
-          <div class="sec-lbl" style="margin-bottom:16px;">Experience</div>
+      </div>
+    </div>
+
+    <!-- Experience: full-width below the about-grid -->
+    <div class="obs" style="margin-top: 80px;">
+      <div class="sec-lbl" style="margin-bottom:22px;">Experience &amp; Education</div>
+      <div class="timeline-grid">
+        <div>
+          <div class="sec-lbl" style="margin-bottom:18px; font-size:.58rem;">Employment — newest first</div>
           <div class="timeline">
             <div class="tl">
               <div class="tl-date">Apr 2026 — Present</div>
@@ -630,10 +725,30 @@ h2 em { font-style: italic; color: var(--blue); }
               <div class="tl-org">Maplicon</div>
             </div>
             <div class="tl">
+              <div class="tl-date">Jun 2025 — Aug 2025</div>
+              <div class="tl-role">GIS Supervisor (Part-time)</div>
+              <div class="tl-org">Center for People &amp; Environment (CPE)</div>
+            </div>
+            <div class="tl">
               <div class="tl-date">Feb 2025 — Jan 2026</div>
               <div class="tl-role">GIS Analyst</div>
               <div class="tl-org">Institute of Water Modelling (IWM)</div>
             </div>
+            <div class="tl">
+              <div class="tl-date">Jun 2017</div>
+              <div class="tl-role">GIS Instructor (Visiting)</div>
+              <div class="tl-org">Dept. of Geography &amp; Environmental Studies, Kushtia Government College</div>
+            </div>
+            <div class="tl">
+              <div class="tl-date">Apr 2017 — Aug 2017</div>
+              <div class="tl-role">Research Assistant</div>
+              <div class="tl-org">Adivasi People Project</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sec-lbl" style="margin-bottom:18px; font-size:.58rem;">Education — newest first</div>
+          <div class="timeline">
             <div class="tl">
               <div class="tl-date">2017 — 2024</div>
               <div class="tl-role">Ph.D. in Cartography &amp; GIS · CSC Scholar</div>
@@ -712,63 +827,459 @@ h2 em { font-style: italic; color: var(--blue); }
 <section id="publications" style="padding-top: 0;">
   <div class="container">
     <div class="obs">
-      <div class="sec-lbl">03 — Selected Publications</div>
+      <div class="sec-lbl">03 — Publications</div>
       <h2>Peer-reviewed <em>contributions.</em></h2>
     </div>
-    <div class="pub-list obs">
-      <div class="pub">
-        <div class="pub-yr">2024</div>
-        <div>
-          <h4>Development of Soil-Suppressed Impervious Surface Area Index for Automatic Urban Mapping</h4>
-          <p class="pub-journal">Photogrammetric Engineering &amp; Remote Sensing, vol. 90, no. 1</p>
-          <p class="pub-authors"><span class="me">A. Javed</span>, Z. Shao, I. Ara, M. N. Ahmad, E. Huq, N. Saleem, F. Karim</p>
+
+    <div class="pub-summary obs">
+      <div class="ps-cell"><div class="ps-num">22</div><div class="ps-lbl">Journal Articles</div></div>
+      <div class="ps-cell"><div class="ps-num">3</div><div class="ps-lbl">Book Chapters</div></div>
+      <div class="ps-cell"><div class="ps-num">15</div><div class="ps-lbl">Conference Papers</div></div>
+      <div class="ps-cell"><div class="ps-num">2</div><div class="ps-lbl">Posters</div></div>
+    </div>
+
+    <div class="pub-tabs obs" role="tablist">
+      <button class="pub-tab active" data-tab="journals" role="tab">Journal Articles <span class="count">22</span></button>
+      <button class="pub-tab" data-tab="chapters" role="tab">Books &amp; Chapters <span class="count">3</span></button>
+      <button class="pub-tab" data-tab="conf" role="tab">Conferences <span class="count">15</span></button>
+      <button class="pub-tab" data-tab="other" role="tab">Posters &amp; Service <span class="count">+</span></button>
+    </div>
+
+    <!-- ─── JOURNAL ARTICLES ─── -->
+    <div class="pub-panel active" id="panel-journals">
+      <div class="pub-list">
+
+        <div class="pub">
+          <div class="pub-yr">2026</div>
+          <div>
+            <h4>Advancements in Deep Learning Methods for Precise Weed and Rice Classification from UAV Imagery: A Comprehensive Review</h4>
+            <p class="pub-journal">Discover Agriculture, vol. 4, no. 1, p. 8</p>
+            <p class="pub-authors">M. N. Ahmad, X. Yuan, L. Gu, S. Yang, R. W. Aslam, <span class="me">A. Javed</span>, G. D. Bathrellos</p>
+          </div>
+          <a href="https://doi.org/10.1007/s44279-025-00469-0" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
         </div>
-        <a href="https://doi.org/10.14358/PERS.23-00043R2" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+
+        <div class="pub">
+          <div class="pub-yr">2026</div>
+          <div>
+            <h4>DTSM: A UAV-based Framework for Temporal Rice Stress Detection and Growth Analysis</h4>
+            <p class="pub-journal">Smart Agricultural Technology, p. 102 141</p>
+            <p class="pub-authors">M. N. Ahmad, X. Yuan, S. Yang, L. Gu, H. Peng, R. W. Aslam, M. E. Huq, <span class="me">A. Javed</span>, G. D. Bathrellos</p>
+          </div>
+          <a href="https://doi.org/10.1016/j.atech.2026.102141" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2026</div>
+          <div>
+            <h4>Comparative Hydrogeochemical Characterization and Environmental Controls on Groundwater Quality, Irrigation Suitability and Health Risk across Northern and Coastal Bangladesh</h4>
+            <p class="pub-journal">Cleaner Water, vol. 5, p. 100 194</p>
+            <p class="pub-authors">I. Ara, R. I. Zerin, L. A. Eva, M. K. Hossain, M. H. Mou, <span class="me">A. Javed</span>, S. Ali, M. A. Kabir, M. M. P. Rana</p>
+          </div>
+          <a href="https://doi.org/10.1016/j.clwat.2025.100194" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2025</div>
+          <div>
+            <h4>Enhanced Urban Impervious Surface Land Use Mapping using a Novel Multi-sensor Feature Fusion Method and Remote Sensing Data</h4>
+            <p class="pub-journal">Environmental Earth Sciences, vol. 84, no. 9, p. 228</p>
+            <p class="pub-authors">M. N. Ahmad, F. Almutlaq, M. E. Huq, F. Islam, <span class="me">A. Javed</span>, H. D. Skilodimou, G. D. Bathrellos</p>
+          </div>
+          <a href="https://doi.org/10.1007/s12665-025-12217-0" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2025</div>
+          <div>
+            <h4>Drainage Network Generation for Urban Pluvial Flooding (UPF) using Generative Adversarial Networks (GANs) and GIS Data</h4>
+            <p class="pub-journal">Sustainability, vol. 17, no. 10</p>
+            <p class="pub-authors">M. N. Ahmad, H. D. Skilodimou, F. Islam, <span class="me">A. Javed</span>, G. D. Bathrellos</p>
+          </div>
+          <a href="https://doi.org/10.3390/su17104380" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2025</div>
+          <div>
+            <h4>Geostatistical Modeling of Soil Physicochemical Properties and Environmental Drivers in Agro-Industrial Land-use Systems in Bangladesh</h4>
+            <p class="pub-journal">Geomatica, vol. 77, no. 2, p. 100 075</p>
+            <p class="pub-authors">R. I. Zerin, I. Ara, S. Ali, M. K. Hossain, <span class="me">A. Javed</span>, S. N. Ratna, M. A. Kabir</p>
+          </div>
+          <a href="https://doi.org/10.1016/j.geomat.2025.100075" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2024</div>
+          <div>
+            <h4>Optical-SAR Data Fusion based on Simple Layer Stacking and the XGBoost Algorithm to Extract Urban Impervious Surfaces in Global Alpha Cities</h4>
+            <p class="pub-journal">Remote Sensing, vol. 16, no. 5</p>
+            <p class="pub-authors">M. N. Ahmad, Z. Shao, <span class="me">A. Javed</span>, I. Ahmad, F. Islam, H. D. Skilodimou, G. D. Bathrellos</p>
+          </div>
+          <a href="https://doi.org/10.3390/rs16050873" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2024</div>
+          <div>
+            <h4>A Novel Ensemble Learning Approach to Extract Urban Impervious Surface based on Machine Learning using SAR and Optical Data</h4>
+            <p class="pub-journal">International Journal of Applied Earth Observation and Geoinformation, vol. 132</p>
+            <p class="pub-authors">M. N. Ahmad, Z. Shao, X. Xiao, P. Fu, <span class="me">A. Javed</span>, I. Ara</p>
+          </div>
+          <a href="https://doi.org/10.1016/j.jag.2024.104013" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2024</div>
+          <div>
+            <h4>Changes Monitoring in Hongjiannao Lake from 1987 to 2023 using Google Earth Engine and Analysis of Climatic and Anthropogenic Forces</h4>
+            <p class="pub-journal">Physics and Chemistry of the Earth, Parts A/B/C, vol. 136, p. 103 756</p>
+            <p class="pub-authors">M. E. Huq, X. Wu, <span class="me">A. Javed</span>, Y. Dong, B. Li, D. Lopez-Carr, J. Wu, J. Liu, Y. Zhang, F. Zhang et al.</p>
+          </div>
+          <a href="https://doi.org/10.1016/j.pce.2024.103756" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2024</div>
+          <div>
+            <h4>Development of Soil-Suppressed Impervious Surface Area Index for Automatic Urban Mapping</h4>
+            <p class="pub-journal">Photogrammetric Engineering &amp; Remote Sensing, vol. 90, no. 1, pp. 33–43</p>
+            <p class="pub-authors"><span class="me">A. Javed</span>, Z. Shao, I. Ara, M. N. Ahmad, E. Huq, N. Saleem, F. Karim</p>
+          </div>
+          <a href="https://doi.org/10.14358/PERS.23-00043R2" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2024</div>
+          <div>
+            <h4>Comparison of Random Forest and XGBoost Classifiers using Integrated Optical and SAR Features for Mapping Urban Impervious Surface</h4>
+            <p class="pub-journal">Remote Sensing, vol. 16, no. 4, p. 665</p>
+            <p class="pub-authors">Z. Shao, M. N. Ahmad, <span class="me">A. Javed</span></p>
+          </div>
+          <a href="https://www.mdpi.com/2072-4292/16/4/665" class="pub-doi" target="_blank" rel="noopener">URL <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2023</div>
+          <div>
+            <h4>Modelling Land Use/Land Cover (LULC) Change Dynamics, Future Prospects, and its Environmental Impacts based on Geospatial Data Models and Remote Sensing Data</h4>
+            <p class="pub-journal">Environmental Science and Pollution Research, vol. 30, no. 12</p>
+            <p class="pub-authors">M. N. Ahmad, Z. Shao, <span class="me">A. Javed</span></p>
+          </div>
+          <a href="https://doi.org/10.1007/s11356-022-24442-2" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2023</div>
+          <div>
+            <h4>Mapping Impervious Surface Area Increase and Urban Pluvial Flooding using Sentinel Application Platform (SNAP) and Remote Sensing Data</h4>
+            <p class="pub-journal">Environmental Science and Pollution Research, vol. 30, no. 60</p>
+            <p class="pub-authors">M. N. Ahmad, Z. Shao, <span class="me">A. Javed</span></p>
+          </div>
+          <a href="https://doi.org/10.1007/s11356-023-30990-y" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2023</div>
+          <div>
+            <h4>The Cellular Automata Approach in Dynamic Modelling of Land Use Change Detection and Future Simulations based on Remote Sensing Data in Lahore, Pakistan</h4>
+            <p class="pub-journal">Photogrammetric Engineering &amp; Remote Sensing, vol. 89, no. 1</p>
+            <p class="pub-authors">M. N. Ahmad, Z. Shao, <span class="me">A. Javed</span>, F. Islam, H. H. Ahmad, R. W. Aslam</p>
+          </div>
+          <a href="https://doi.org/10.14358/pers.22-00102r2" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2023</div>
+          <div>
+            <h4>Environmental Impact Assessment of Tobacco Farming in Northern Bangladesh</h4>
+            <p class="pub-journal">Heliyon, vol. 9, no. 3, e14505</p>
+            <p class="pub-authors">M. Y. Ali, M. Shahrier, A. A. Kafy, I. Ara, <span class="me">A. Javed</span>, M. A. Fattah, Z. A. Rahaman, K. Tripura</p>
+          </div>
+          <a href="https://doi.org/10.1016/j.heliyon.2023.e14505" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2023</div>
+          <div>
+            <h4>Development of Normalized Soil Area Index for Urban Studies using Remote Sensing Data</h4>
+            <p class="pub-journal">Geofizika, vol. 40, no. 1, pp. 29–49</p>
+            <p class="pub-authors"><span class="me">A. Javed</span>, Z. F. Shao, B. Bai, Z. Y. Yu, J. B. Wang, I. Ara, M. E. Huq, M. Y. Ali, N. Saleem et al.</p>
+          </div>
+          <a href="https://doi.org/10.15233/gfz.2023.40.2" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2023</div>
+          <div>
+            <h4>Expansion of Urban Impervious Surfaces in Lahore (1993–2022) based on GEE and Remote Sensing Data</h4>
+            <p class="pub-journal">Photogrammetric Engineering &amp; Remote Sensing, vol. 89, no. 8</p>
+            <p class="pub-authors">Z. Shao, M. N. Ahmad, <span class="me">A. Javed</span>, F. Islam, Z. Jahangir, I. Ahmad</p>
+          </div>
+          <a href="https://doi.org/10.14358/pers.23-00001r2" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2022</div>
+          <div>
+            <h4>The Simulation and Prediction of Land Surface Temperature based on SCP and CA-ANN Models using Remote Sensing Data: A Case Study of Lahore</h4>
+            <p class="pub-journal">Photogrammetric Engineering &amp; Remote Sensing, vol. 88, no. 12</p>
+            <p class="pub-authors">M. N. Ahmad, Z. F. Shao, A. Yaseen, M. N. Khalid, <span class="me">A. Javed</span></p>
+          </div>
+          <a href="https://doi.org/10.14358/pers.22-00071r2" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2022</div>
+          <div>
+            <h4>Comparative Occupational Health Risk between Tobacco and Paddy Farming People in Bangladesh</h4>
+            <p class="pub-journal">SSM-Mental Health, vol. 2, p. 6</p>
+            <p class="pub-authors">M. Y. Ali, A.-A. Kafy, Z. A. Rahaman, M. F. Islam, M. R. Rahman, I. Ara, M. R. Akhtar, <span class="me">A. Javed</span></p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2021</div>
+          <div>
+            <h4>Review of Spectral Indices for Urban Remote Sensing</h4>
+            <p class="pub-journal">Photogrammetric Engineering &amp; Remote Sensing, vol. 87, no. 7, pp. 513–524</p>
+            <p class="pub-authors"><span class="me">A. Javed</span>, Q. M. Cheng, H. Peng, O. Altan, Y. Li, I. Ara, E. Huq, Y. Ali, N. Saleem</p>
+          </div>
+          <a href="https://doi.org/10.14358/Pers.87.7.513" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2020</div>
+          <div>
+            <h4>Assessing Vulnerability for Inhabitants of Dhaka City Considering Flood-Hazard Exposure</h4>
+            <p class="pub-journal">Geofizika, vol. 37, no. 2, pp. 97–130</p>
+            <p class="pub-authors">M. E. Huq, Q. M. Cheng, O. Altan, A. Z. M. Shoeb, M. A. Hossain, M. N. I. Sarker, N. Saleem, <span class="me">A. Javed</span> et al.</p>
+          </div>
+          <a href="https://doi.org/10.15233/gfz.2020.37.5" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2019</div>
+          <div>
+            <h4>Parameters Derived from and/or Used with Digital Elevation Models (DEMs) for Landslide Susceptibility Mapping and Landslide Risk Assessment: A Review</h4>
+            <p class="pub-journal">ISPRS International Journal of Geo-Information, vol. 8, no. 12</p>
+            <p class="pub-authors">N. Saleem, M. E. Huq, N. Y. D. Twumasi, <span class="me">A. Javed</span>, A. Sajjad</p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
       </div>
-      <div class="pub">
-        <div class="pub-yr">2024</div>
-        <div>
-          <h4>Optical-SAR Data Fusion based on Simple Layer Stacking &amp; XGBoost to Extract Urban Impervious Surfaces in Global Alpha Cities</h4>
-          <p class="pub-journal">Remote Sensing, vol. 16, no. 5</p>
-          <p class="pub-authors">M. N. Ahmad, Z. Shao, <span class="me">A. Javed</span>, I. Ahmad, F. Islam, H. D. Skilodimou, G. D. Bathrellos</p>
+    </div>
+
+    <!-- ─── BOOKS & CHAPTERS ─── -->
+    <div class="pub-panel" id="panel-chapters">
+      <div class="pub-list">
+
+        <div class="pub">
+          <div class="pub-yr">2026</div>
+          <div>
+            <h4>Advancements in Remote Sensing and GIS for Water Resource Management and SDG Monitoring</h4>
+            <p class="pub-journal">In <em>Utilizing Earth Observation Data in Reaching Sustainable Development Goals</em>, Elsevier, pp. 189–218</p>
+            <p class="pub-authors">M. E. Huq, D. Lopez-Carr, A. Tariq, X. Wu, J. Wu, Y. Dong, Z. Daud, <span class="me">A. Javed</span>, M. N. I. Sarker, K. M. Adnan et al.</p>
+          </div>
+          <a href="https://doi.org/10.1016/B978-0-443-30204-6.00007-3" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
         </div>
-        <a href="https://doi.org/10.3390/rs16050873" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+
+        <div class="pub">
+          <div class="pub-yr">2022</div>
+          <div>
+            <h4>Measuring Vulnerability to Flash Flood of Urban Dwellers</h4>
+            <p class="pub-journal">In <em>Wadi Flash Floods</em>, Springer, Singapore, p. 317</p>
+            <p class="pub-authors">M. E. Huq, Z. Shao, A. A. Al Dughairi, M. N. I. Sarker, C. Bowen, A. Al Mamun, N. Saleem, <span class="me">A. Javed</span>, M. M. Rahman</p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2020</div>
+          <div>
+            <h4>Measuring Vulnerability to Environmental Hazards: Qualitative to Quantitative</h4>
+            <p class="pub-journal">In <em>Environment, Climate, Plant and Vegetation Growth</em>, Springer, pp. 421–452</p>
+            <p class="pub-authors">M. E. Huq, A. Z. M. Shoeb, M. A. Hossain, S. Fahad, M. M. Kamruzzaman, <span class="me">A. Javed</span>, N. Saleem, K. M. M. Adnan, S. A. Sarker, M. Y. Ali</p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
       </div>
-      <div class="pub">
-        <div class="pub-yr">2024</div>
-        <div>
-          <h4>A Novel Ensemble Learning Approach to Extract Urban Impervious Surface using SAR and Optical Data</h4>
-          <p class="pub-journal">International Journal of Applied Earth Observation and Geoinformation, vol. 132</p>
-          <p class="pub-authors">M. N. Ahmad, Z. Shao, X. Xiao, P. Fu, <span class="me">A. Javed</span>, I. Ara</p>
+    </div>
+
+    <!-- ─── CONFERENCES ─── -->
+    <div class="pub-panel" id="panel-conf">
+      <div class="pub-list">
+
+        <div class="pub">
+          <div class="pub-yr">2025</div>
+          <div>
+            <h4>A Remote Sensing Assessment of Air Pollution in Five Bangladeshi Industrial Cities</h4>
+            <p class="pub-journal">International Global Sustainability and Development Congress, Liberty Publishing House, pp. 873–897</p>
+            <p class="pub-authors">H. Rashid, <span class="me">A. Javed</span>, I. Ara</p>
+          </div>
+          <a href="https://iksadkongre.com/_files/ugd/614b1f_c112d6b2a09442749bd2d5579d9cdb53.pdf" class="pub-doi" target="_blank" rel="noopener">PDF <span class="arr">→</span></a>
         </div>
-        <a href="https://doi.org/10.1016/j.jag.2024.104013" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+
+        <div class="pub">
+          <div class="pub-yr">2025</div>
+          <div>
+            <h4>Index-based Assessment of Groundwater Quality and Suitability for Irrigation across Major Agricultural Regions of Bangladesh</h4>
+            <p class="pub-journal">1st International Conference on Geosciences for Achieving Sustainable Development Goals (ICGSDG), Univ. of Rajshahi</p>
+            <p class="pub-authors">R. I. Zerin, I. Ara, L. Anjum, M. H. Moti, M. K. Hossain, <span class="me">A. Javed</span></p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2025</div>
+          <div>
+            <h4>Assessment of Particulate Matter Exposure and Associated Human Health Risk: Comparison among Non-automated, Automated and Semi-automated Rice Processing Industry Workers</h4>
+            <p class="pub-journal">1st ICGSDG, Univ. of Rajshahi, p. 162</p>
+            <p class="pub-authors">F. Islam, I. Ara, M. S. Khan, <span class="me">A. Javed</span></p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2025</div>
+          <div>
+            <h4>From Resource to Risk: Evaluating the Rainwater Quality and Associated Health Issues in the Southern Coastal Bangladesh</h4>
+            <p class="pub-journal">10th International Conference on Water and Flood Management (ICWFM), IWFM, BUET, pp. 277–284</p>
+            <p class="pub-authors">L. A. Eva, I. Ara, M. S. K. Khan, M. A. Rahman, <span class="me">A. Javed</span></p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2025</div>
+          <div>
+            <h4>Agricultural Drought in Northern Bangladesh: A Spatiotemporal Analysis using MODIS Time Series from 2001 to 2023</h4>
+            <p class="pub-journal">1st International Conference on Bangladesh Studies (ICBS-I), Istanbul Ticaret University</p>
+            <p class="pub-authors">S. Ali, <span class="me">A. Javed</span>, I. Ara</p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2025</div>
+          <div>
+            <h4>A Comprehensive Evaluation of Environmental Literacy: A Case Study in Kushtia Municipality, Bangladesh</h4>
+            <p class="pub-journal">1st International Conference on Bangladesh Studies (ICBS-I), Istanbul Ticaret University</p>
+            <p class="pub-authors">M. S. Akter, I. Ara, <span class="me">A. Javed</span></p>
+          </div>
+          <a href="https://cpsrinfo.org/" class="pub-doi" target="_blank" rel="noopener">URL <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2025</div>
+          <div>
+            <h4>Governance Framework Effectiveness and Internal Waste Management Practices in the Hospitals of Rangpur Sadar Upazila, Bangladesh</h4>
+            <p class="pub-journal">1st International Conference on Bangladesh Studies (ICBS-I), Istanbul Ticaret University</p>
+            <p class="pub-authors">R. R. Ria, I. Ara, <span class="me">A. Javed</span></p>
+          </div>
+          <a href="https://cpsrinfo.org/" class="pub-doi" target="_blank" rel="noopener">URL <span class="arr">→</span></a>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2020</div>
+          <div>
+            <h4>Measuring Vulnerability to Flash Flood for Urban Inhabitants: A Case Study of Dhaka Megacity, Bangladesh</h4>
+            <p class="pub-journal">5th International Symposium on Flash Floods in Wadi Systems (ISFF2020), p. 87</p>
+            <p class="pub-authors">M. Huq, S. Zhenfeng, C. Bowen, N. Saleem, A. A. Aldughairi, D. T. N. Yaw, <span class="me">A. Javed</span>, M. M. Rahman</p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2019</div>
+          <div>
+            <h4>Measuring Vulnerability for City Dwellers Exposed to Flood Hazard: A Case Study of Dhaka City, Bangladesh</h4>
+            <p class="pub-journal">Urban Intelligence and Applications: Proceedings of ICUIA 2019, Springer, pp. 207–215</p>
+            <p class="pub-authors">M. E. Huq, A. Shoeb, <span class="me">A. Javed</span>, Z. Shao, M. A. Hossain, M. S. Sarven</p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2018</div>
+          <div>
+            <h4>Life Cycle Energy and Cost Analysis of Small Scale Biogas Plant and Solar PV System in Rural Areas of Bangladesh</h4>
+            <p class="pub-journal">2nd International Conference on Energy and Power (ICEP), Sydney; Energy Procedia 160, Elsevier, pp. 277–284</p>
+            <p class="pub-authors">M. Y. Ali, M. Hassan, M. A. Rahmana, A.-A. Kafy, I. Ara, <span class="me">A. Javed</span>, M. R. Rahman</p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2017</div>
+          <div>
+            <h4>Smart Application using GNSS, GIS and Remote Sensing: Flood Prediction and Monitoring</h4>
+            <p class="pub-journal">First International Workshop on Artificial Intelligence and Big Data Analysis, p. 67</p>
+            <p class="pub-authors"><span class="me">A. Javed</span>, S. Zhenfeng</p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
+        <div class="pub">
+          <div class="pub-yr">2015</div>
+          <div>
+            <h4>Philosophy of Geography Education: Some Perspectives and Progress in Bangladesh Context</h4>
+            <p class="pub-journal">International Conference on Geography Education, p. 33</p>
+            <p class="pub-authors"><span class="me">A. Javed</span>, R. Ahmed</p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
       </div>
-      <div class="pub">
-        <div class="pub-yr">2023</div>
-        <div>
-          <h4>Development of Normalized Soil Area Index for Urban Studies using Remote Sensing Data</h4>
-          <p class="pub-journal">Geofizika, vol. 40, no. 1</p>
-          <p class="pub-authors"><span class="me">A. Javed</span>, Z. F. Shao, B. Bai, Z. Y. Yu, J. B. Wang, I. Ara et al.</p>
+    </div>
+
+    <!-- ─── POSTERS & SERVICE ─── -->
+    <div class="pub-panel" id="panel-other">
+      <div class="pub-list">
+
+        <div class="pub">
+          <div class="pub-yr">2023</div>
+          <div>
+            <h4>Soil Suppressed Generalized Impervious Surface Area Index (GISAI) for Automatic Megacity Mapping</h4>
+            <p class="pub-journal">Poster · ResearchGate</p>
+            <p class="pub-authors"><span class="me">A. Javed</span>, Z. Shao, I. Ara, M. N. Ahmad, E. Huq, N. Saleem, F. Karim</p>
+          </div>
+          <a href="https://doi.org/10.13140/RG.2.2.35676.05761" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
         </div>
-        <a href="https://doi.org/10.15233/gfz.2023.40.2" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
-      </div>
-      <div class="pub">
-        <div class="pub-yr">2025</div>
-        <div>
-          <h4>Drainage Network Generation for Urban Pluvial Flooding using Generative Adversarial Networks and GIS Data</h4>
-          <p class="pub-journal">Sustainability, vol. 17, no. 10</p>
-          <p class="pub-authors">M. N. Ahmad, H. D. Skilodimou, F. Islam, <span class="me">A. Javed</span>, G. D. Bathrellos</p>
+
+        <div class="pub">
+          <div class="pub-yr">2023</div>
+          <div>
+            <h4>Chinese Desert Reclamation: Turning Barren Land into Green Oases</h4>
+            <p class="pub-journal">Poster · ResearchGate</p>
+            <p class="pub-authors"><span class="me">A. Javed</span>, M. N. Ahmad</p>
+          </div>
+          <a href="https://doi.org/10.13140/RG.2.2.30223.46240" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
         </div>
-        <a href="https://doi.org/10.3390/su17104380" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
-      </div>
-      <div class="pub">
-        <div class="pub-yr">2021</div>
-        <div>
-          <h4>Review of Spectral Indices for Urban Remote Sensing</h4>
-          <p class="pub-journal">Photogrammetric Engineering and Remote Sensing, vol. 87, no. 7</p>
-          <p class="pub-authors"><span class="me">A. Javed</span>, Q. M. Cheng, H. Peng, O. Altan, Y. Li, I. Ara, E. Huq, Y. Ali, N. Saleem</p>
+
+        <div class="pub">
+          <div class="pub-yr">Service</div>
+          <div>
+            <h4>Journal Peer Reviewer</h4>
+            <p class="pub-journal">Remote Sensing of Environment · Advances in Space Research · IEEE J-STARS · City and Environment Interactions</p>
+            <p class="pub-authors">Invited reviewer for leading remote-sensing and geosciences journals.</p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
         </div>
-        <a href="https://doi.org/10.14358/Pers.87.7.513" class="pub-doi" target="_blank" rel="noopener">DOI <span class="arr">→</span></a>
+
+        <div class="pub">
+          <div class="pub-yr">Service</div>
+          <div>
+            <h4>Conference Reviewer — ISPRS Geospatial Week 2025, Dubai</h4>
+            <p class="pub-journal">International Society for Photogrammetry and Remote Sensing</p>
+            <p class="pub-authors">Reviewed submissions for the ISPRS flagship geospatial conference.</p>
+          </div>
+          <span class="pub-doi" style="opacity:.5">—</span>
+        </div>
+
       </div>
     </div>
     <div class="cta-row obs">
@@ -794,11 +1305,19 @@ h2 em { font-style: italic; color: var(--blue); }
       </div>
       <div class="tk">
         <div class="tk-lbl">GIS &amp; Cloud</div>
-        <div class="tk-items"><span>Google Earth Engine</span><span>ArcGIS</span><span>QGIS</span></div>
+        <div class="tk-items"><span>Google Earth Engine</span><span>ArcGIS</span><span>QGIS</span><span>SNAP</span></div>
+      </div>
+      <div class="tk">
+        <div class="tk-lbl">Remote Sensing</div>
+        <div class="tk-items"><span>SAR</span><span>Optical</span><span>Multispectral</span><span>Hyperspectral</span><span>LiDAR</span></div>
       </div>
       <div class="tk">
         <div class="tk-lbl">AI &amp; Machine Learning</div>
-        <div class="tk-items"><span>Random Forest</span><span>XGBoost</span><span>Deep Learning</span><span>Cellular Automata</span></div>
+        <div class="tk-items"><span>Random Forest</span><span>XGBoost</span><span>Deep Learning</span><span>Cellular Automata</span><span>Ensemble Learning</span></div>
+      </div>
+      <div class="tk tk-ai">
+        <div class="tk-lbl">AI Assistants &amp; CLIs</div>
+        <div class="tk-items"><span>Claude Code</span><span>Gemini CLI</span><span>ChatGPT</span><span>Hermes Agent · OpenRouter</span><span>Microsoft Copilot</span></div>
       </div>
       <div class="tk">
         <div class="tk-lbl">Data &amp; Analytics</div>
@@ -807,6 +1326,10 @@ h2 em { font-style: italic; color: var(--blue); }
       <div class="tk">
         <div class="tk-lbl">Field Surveying</div>
         <div class="tk-items"><span>RTK</span><span>GPS</span><span>Total Station</span><span>UAV</span></div>
+      </div>
+      <div class="tk">
+        <div class="tk-lbl">Research &amp; Writing</div>
+        <div class="tk-items"><span>Peer Review</span><span>Academic Writing</span><span>Project Management</span><span>PMP · APM</span></div>
       </div>
       <div class="tk">
         <div class="tk-lbl">Languages</div>
@@ -853,6 +1376,17 @@ const io = new IntersectionObserver(entries => {
   });
 }, { threshold: .1, rootMargin: "0px 0px -50px 0px" });
 document.querySelectorAll('.obs').forEach(el => io.observe(el));
+
+// Publications tabs
+document.querySelectorAll('.pub-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    document.querySelectorAll('.pub-tab').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.pub-panel').forEach(p => {
+      p.classList.toggle('active', p.id === 'panel-' + target);
+    });
+  });
+});
 </script>
 
 <!-- ══ TWEAKS ════════════════════════════════ -->
